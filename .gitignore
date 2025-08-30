@@ -53,6 +53,7 @@ Temporary Items
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/.idea.FlockWise/.idea
 
 # AWS User-specific
 .idea/**/aws.xml
