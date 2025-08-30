@@ -1,0 +1,29 @@
+﻿version: "3.9"
+
+services:
+  flockwise-api:
+    build:
+      context: .
+      dockerfile: FlockWise.API/Dockerfile
+    ports:
+      - "5001:80"
+    depends_on:
+      - flockwise-db
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=flockwise-db;Database=flockwise_db;Username=flockwise_user;Password=password123
+
+  flockwise-db:
+    image: postgres:16
+    container_name: flockwise_db
+    restart: always
+    environment:
+      POSTGRES_DB: flockwise_db
+      POSTGRES_USER: flockwise_user
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    volumes:
+      - flockwise-db-data:/var/lib/postgresql/data
+
+volumes:
+  flockwise-db-data:
