@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace FlockWise.Core.Events.Sheep;
 
 public class TreatmentRecord
