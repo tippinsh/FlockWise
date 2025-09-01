@@ -1,4 +1,3 @@
-using FlockWise.Core.Entities;
 using FlockWise.Core.Events.Sheep;
 using FlockWise.Infrastructure.Persistence.EntityConfiguration;
 

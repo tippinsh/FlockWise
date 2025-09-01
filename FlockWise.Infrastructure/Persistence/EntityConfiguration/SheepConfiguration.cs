@@ -1,5 +1,3 @@
-using FlockWise.Core.Entities;
-
 namespace FlockWise.Infrastructure.Persistence.EntityConfiguration;
 
 public class SheepConfiguration : IEntityTypeConfiguration<Sheep>
