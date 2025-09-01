@@ -1,7 +1,7 @@
 namespace FlockWise.Core.Events.Flocks;
 
-public class FlockCreated(int flockId, DateTimeOffset establishedDate) : DomainEvent
+public class FlockCreated(Guid id, DateTimeOffset establishedDate) : DomainEvent
 {
-    public int FlockId { get; set; } = flockId;
+    public Guid Id { get; set; } = id;
     public DateTimeOffset EstablishedDate { get; set; } = establishedDate;
 }

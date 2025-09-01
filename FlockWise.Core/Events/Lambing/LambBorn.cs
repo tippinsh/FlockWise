@@ -1,7 +1,6 @@
 namespace FlockWise.Core.Events.Lambing;
 
-public class LambBorn(Guid lambId, Guid damId, DateTimeOffset birthDate, Sex sex, Weight birthWeight)
-    : DomainEvent
+public class LambBorn(Guid lambId, Guid damId, DateTimeOffset birthDate, Sex sex, Weight birthWeight) : DomainEvent
 {
     public Guid LambId { get; set; } = lambId;
     public Guid EweId { get; set; } = damId;
