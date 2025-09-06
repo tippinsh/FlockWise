@@ -1,6 +1,6 @@
 namespace FlockWise.Infrastructure.Persistence.EntityConfiguration;
 
-public class WeightHistoryConfiguration
+public class WeightHistoryConfiguration : IEntityTypeConfiguration<WeightHistory>
 {
     public void Configure(EntityTypeBuilder<WeightHistory> builder)
     {

@@ -1,6 +1,6 @@
 namespace FlockWise.Infrastructure.Persistence.EntityConfiguration;
 
-public class FlockNoteConfiguration
+public class FlockNoteConfiguration : IEntityTypeConfiguration<FlockNote>
 {
     public void Configure(EntityTypeBuilder<FlockNote> builder)
     {

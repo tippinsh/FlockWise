@@ -10,5 +10,6 @@ public class FlockProfile : Profile
         CreateMap<Flock, FlockDto>();
         CreateMap<Sheep, SheepDto>();
         CreateMap<BirthRecord, BirthRecordDto>();
+        CreateMap<Flock, FlockWithSheepDto>();
     }
 }

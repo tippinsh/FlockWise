@@ -8,6 +8,11 @@ public class FlockConfiguration : IEntityTypeConfiguration<Flock>
 
         builder.HasKey(e => e.Id);
         
+        builder.HasOne(e => e.User)
+            .WithMany(u => u.Flocks)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.Property(e => e.Id)
             .HasColumnType("uuid")
             .ValueGeneratedNever();
@@ -34,5 +39,7 @@ public class FlockConfiguration : IEntityTypeConfiguration<Flock>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(f => f.FieldId);
+        builder.HasIndex(f => f.UserId);
+
     }
 }

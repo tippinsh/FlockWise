@@ -18,9 +18,10 @@ public class LambingConfiguration : IEntityTypeConfiguration<Lambing>
             .HasColumnType("uuid")
             .IsRequired();
         
-        builder.HasIndex(e => e.EweId);
-        builder.HasIndex(e => e.TupId);
-        builder.HasIndex(e => e.LambingDate);
+        builder.HasOne(e => e.User)
+            .WithMany(u => u.LambingRecords)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne<Sheep>()
             .WithMany()
@@ -38,5 +39,9 @@ public class LambingConfiguration : IEntityTypeConfiguration<Lambing>
             .WithOne(n => n.Lambing)
             .HasForeignKey(n => n.LambingId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasIndex(e => e.EweId);
+        builder.HasIndex(e => e.TupId);
+        builder.HasIndex(e => e.LambingDate);
     }
 }

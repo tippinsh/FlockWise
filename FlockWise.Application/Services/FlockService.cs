@@ -4,27 +4,39 @@ namespace FlockWise.Application.Services;
 
 public class FlockService(IFlockRepository flockRepository, IMapper mapper) : IFlockService
 {
-    public async Task<Result<FlockDto?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<FlockDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var flock = await flockRepository.GetByIdAsync(id, cancellationToken);
-
-            if (flock == null)
-            {
-                return Result<FlockDto?>.NotFound($"Flock with id {id} not found.");
-            }
-        
-            var flockDto = mapper.Map<FlockDto>(flock);
-            return Result<FlockDto?>.Ok(flockDto);
-        }
-        catch (Exception ex)
-        {
-            return Result<FlockDto?>.Error($"An error occurred while getting flock with id {id}: {ex.Message}", 500);
-        }
+        var flock = await flockRepository.GetByIdAsync(id, cancellationToken);
+        return flock == null ? null : mapper.Map<FlockDto>(flock);
     }
 
-    public Task<FlockWithSheepDto?> GetByIdWithSheepAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<FlockWithSheepDto?> GetByIdWithSheepAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var flock = await flockRepository.GetByIdWithSheepAsync(id, cancellationToken);
+        return flock == null ? null : mapper.Map<FlockWithSheepDto>(flock);
+    }
+
+    public Task<IEnumerable<FlockDto>> GetPagedAsync(FlockListRequest request, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task AddAsync(AddFlockDto flock, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(UpdateFlockDto flock, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RemoveAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

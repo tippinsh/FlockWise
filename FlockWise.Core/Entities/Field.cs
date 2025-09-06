@@ -3,6 +3,11 @@ namespace FlockWise.Core.Entities;
 public class Field
 {
     public Guid Id { get; set; } = SequentialGuidGenerator.NewSequentialGuid();
+    
+    [Required]
+    public int UserId { get; set; }
+    
+    public User User { get; set; } = null!;
 
     public double Size { get; set; }
 

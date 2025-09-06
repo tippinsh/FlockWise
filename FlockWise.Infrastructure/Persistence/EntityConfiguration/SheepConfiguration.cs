@@ -10,19 +10,32 @@ public class SheepConfiguration : IEntityTypeConfiguration<Sheep>
             .HasColumnType("uuid")
             .ValueGeneratedNever();
         
+        // User relationship
+        builder.HasOne(e => e.User)
+            .WithMany(u => u.Sheep)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // Flock relationship
         builder.HasOne(s => s.Flock)
             .WithMany(f => f.Sheep)
             .HasForeignKey(s => s.FlockId)
             .OnDelete(DeleteBehavior.Cascade);
         
+        // Weights relationship
         builder.HasMany(s => s.Weights)
             .WithOne()
             .HasForeignKey(w => w.SheepId)
             .OnDelete(DeleteBehavior.Cascade);
         
+        // BirthRecord relationship
         builder.HasOne(s => s.BirthRecord)
             .WithOne()
             .HasForeignKey<BirthRecord>(s => s.SheepId)
             .OnDelete(DeleteBehavior.SetNull);
+        
+        builder.HasIndex(e => e.UserId);
+        builder.HasIndex(e => e.FlockId);
+
     }
 }

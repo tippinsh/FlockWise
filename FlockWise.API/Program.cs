@@ -1,3 +1,5 @@
+using FlockWise.API.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -52,6 +54,8 @@ services.AddDbContext<FlockWiseDbContext>((serviceProvider, options) =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
