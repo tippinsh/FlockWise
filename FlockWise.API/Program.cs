@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(_ => { }, typeof(Program).Assembly);
+
 services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SectionName));
 services.Configure<PostgresOptions>(configuration.GetSection(PostgresOptions.SectionName));
 services.Configure<SqliteOptions>(configuration.GetSection(SqliteOptions.SectionName));
@@ -50,6 +52,12 @@ services.AddDbContext<FlockWiseDbContext>((serviceProvider, options) =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FlockWiseDbContext>();
+    await db.Database.MigrateAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

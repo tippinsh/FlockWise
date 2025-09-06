@@ -14,5 +14,15 @@ public class SheepConfiguration : IEntityTypeConfiguration<Sheep>
             .WithMany(f => f.Sheep)
             .HasForeignKey(s => s.FlockId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(s => s.Weights)
+            .WithOne()
+            .HasForeignKey(w => w.SheepId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasOne(s => s.BirthRecord)
+            .WithOne()
+            .HasForeignKey<BirthRecord>(s => s.SheepId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

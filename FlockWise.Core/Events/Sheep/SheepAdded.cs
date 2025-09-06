@@ -7,7 +7,7 @@ public class SheepAdded : DomainEvent
     public string? Breed { get; set; }
     public string? Pedigree { get; set; }
     public Sex Sex { get; set; }
-    public Weight? CurrentWeightKgs { get; set; }
+    public decimal WeightKg { get; set; }
     public LifeStage LifeStage { get; set; }
     public SheepType? SheepType { get; set; }
 }

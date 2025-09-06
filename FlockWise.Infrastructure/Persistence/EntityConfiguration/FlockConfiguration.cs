@@ -20,7 +20,19 @@ public class FlockConfiguration : IEntityTypeConfiguration<Flock>
         builder.Property(e => e.Name)
             .HasMaxLength(100);
 
-        builder.Property(e => e.EstablishedDate)
+        builder.Property(e => e.EstablishedDateUtc)
             .IsRequired();
+        
+        builder.HasOne(e => e.Field)
+            .WithMany()
+            .HasForeignKey(e => e.FieldId)
+            .OnDelete(DeleteBehavior.SetNull);
+        
+        builder.HasMany(f => f.Notes)
+            .WithOne(f => f.Flock)
+            .HasForeignKey(f => f.FlockId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(f => f.FieldId);
     }
 }

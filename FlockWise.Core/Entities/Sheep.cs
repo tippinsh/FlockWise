@@ -11,20 +11,10 @@ public class Sheep
 
     [StringLength(100)]
     public string? Pedigree { get; set; }
-    
-    public DateTimeOffset? DateOfBirth { get; init; }
 
     public DateTimeOffset? DateOfDeath { get; set; }
-    
-    public Sheep? Father { get; set; }
-    
-    public Sheep? Mother { get; set; }
 
     public Sex Sex { get; set; }
-
-    public Weight? WeightBornKgs { get; set; }
-
-    public Weight? CurrentWeight { get; set; }
 
     [StringLength(100)]
     public string? FeetHealth { get; set; }
@@ -34,8 +24,6 @@ public class Sheep
     [Required]
     public SheepStatus Status { get; set; } = SheepStatus.Alive;
 
-    public bool? BottleFedLamb { get; set; }
-
     [Required]
     public LifeStage LifeStage { get; set; }
 
@@ -43,4 +31,8 @@ public class Sheep
     
     // Navigation properties
     public Flock Flock { get; set; }
+    public BirthRecord? BirthRecord { get; set; }
+    
+    public ICollection<WeightHistory> Weights { get; set; } = [];
+
 }

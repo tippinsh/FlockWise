@@ -10,6 +10,13 @@ public class FlockWiseDbContext(DbContextOptions<FlockWiseDbContext> options) : 
     public DbSet<Sheep> Sheep { get; set; }
 
     public DbSet<TreatmentRecord> TreatmentRecords { get; set; }
+    
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<Enum>()
+            .HaveConversion<string>();
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

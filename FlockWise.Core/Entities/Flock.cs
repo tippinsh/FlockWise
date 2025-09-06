@@ -3,16 +3,20 @@ namespace FlockWise.Core.Entities;
 public class Flock
 {
     public Guid Id { get; init; } = SequentialGuidGenerator.NewSequentialGuid();
+    
     public string? Name { get; set; }
     
-    [StringLength(100)]
-    public string? Location { get; set; }
-    public DateTimeOffset EstablishedDate { get; init; }
+    public Location? Location { get; set; }
     
-    [StringLength(100)]
-    public string? Breed { get; set; }
+    public DateTimeOffset EstablishedDateUtc { get; init; }
     
-    public List<string>? Notes { get; set; }
+    public Breed? Breed { get; set; }
+    
+    public ICollection<FlockNote>? Notes { get; set; }
+    
+    public Guid? FieldId { get; set; }
+    
+    public Field? Field { get; set; }
     
     // Navigation properties
     public ICollection<Sheep> Sheep { get; set; } = [];
