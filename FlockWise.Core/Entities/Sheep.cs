@@ -33,7 +33,7 @@ public class Sheep
     public SheepType? SheepType { get; set; }
     
     // Navigation properties
-    public Flock Flock { get; set; }
+    public Flock? Flock { get; set; }
     public BirthRecord? BirthRecord { get; set; }
     
     public ICollection<WeightHistory> Weights { get; set; } = [];

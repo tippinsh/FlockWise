@@ -1,8 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace FlockWise.API.Controllers;
 
-public class SheepController : ControllerBase
+[Controller]
+public class SheepController(ISheepService sheepService) : ControllerBase
 {
-    
+    [HttpGet]
+    public async Task<IActionResult> GetById([FromQuery] GetSheepRequest request, CancellationToken cancellationToken = default)
+    {
+        var sheep = await sheepService.GetByIdAsync(request, cancellationToken);
+        if (sheep == null)
+        {
+            return NotFound(new { message = $"Sheep with id {request.Id} not found." });
+        }
+        return Ok(sheep);
+    }
 }

@@ -1,13 +1,25 @@
 using FlockWise.Application.Interfaces;
+using FlockWise.Core.Enums;
 using FlockWise.Infrastructure.Persistence;
 
-namespace FlockWise.Infrastructure;
+namespace FlockWise.Infrastructure.Repositories;
 
 public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
 {
-    public async Task<Flock?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Flock?> GetByIdAsync(Guid id, FlockInclude include, CancellationToken cancellationToken = default)
     {
-        return await dbContext.Flocks.FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
+        var query = dbContext.Flocks.AsQueryable();
+        
+        if (include.HasFlag(FlockInclude.Sheep))
+            query = query.Include(f => f.Sheep);
+        
+        if (include.HasFlag(FlockInclude.Field))
+            query = query.Include(f => f.Field);
+        
+        if (include.HasFlag(FlockInclude.FlockNotes))
+            query = query.Include(f => f.Notes);
+        
+        return await query.FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
     }
 
     public async Task<Flock?> GetByIdWithSheepAsync(Guid id, CancellationToken cancellationToken = default)

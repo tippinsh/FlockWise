@@ -4,8 +4,7 @@ namespace FlockWise.Application.Interfaces;
 
 public interface IFlockService
 {
-    Task<FlockDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<FlockWithSheepDto?> GetByIdWithSheepAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<FlockDto?> GetByIdAsync(GetFlockRequest request, CancellationToken cancellationToken = default);
     Task<IEnumerable<FlockDto>> GetPagedAsync(FlockListRequest request, CancellationToken cancellationToken = default);   
     Task AddAsync(AddFlockDto flock, CancellationToken cancellationToken = default);
     Task UpdateAsync(UpdateFlockDto flock, CancellationToken cancellationToken = default);
