@@ -3,6 +3,7 @@ namespace FlockWise.Core.Entities;
 public class Flock
 {
     public Guid Id { get; init; } = SequentialGuidGenerator.NewSequentialGuid();
+    
     [Required]
     public int UserId { get; set; }
     public User User { get; set; } = null!;

@@ -13,4 +13,11 @@ public class SheepController(ISheepService sheepService) : ControllerBase
         }
         return Ok(sheep);
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetPagedAsync([FromQuery] SheepListRequest request, CancellationToken cancellationToken = default)
+    {
+        var sheeps = await sheepService.GetPagedAsync(request, cancellationToken);
+        return Ok(sheeps);
+    }
 }

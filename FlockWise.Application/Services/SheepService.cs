@@ -8,4 +8,9 @@ public class SheepService : ISheepService
     {
         throw new NotImplementedException();
     }
+
+    public Task<IEnumerable<SheepDto>> GetPagedAsync(SheepListRequest request, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
 }
