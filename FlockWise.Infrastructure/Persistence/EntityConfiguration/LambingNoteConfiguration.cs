@@ -8,6 +8,10 @@ public class LambingNoteConfiguration : IEntityTypeConfiguration<LambingNote>
         
         builder.HasKey(x => x.Id);
         
+        builder.Property(e => e.Id)
+            .HasColumnType("uuid")
+            .ValueGeneratedNever();
+        
         builder.Property(x => x.Note)
             .IsRequired()
             .HasMaxLength(255);

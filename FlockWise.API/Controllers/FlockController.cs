@@ -1,49 +1,65 @@
-using FlockWise.Application.Models.Flock;
-
 namespace FlockWise.API.Controllers;
 
-[Controller]
+[ApiController]
+[Route("api/[controller]")]
 public class FlockController(IFlockService flockService) : ControllerBase
 {
-    [HttpGet]
-    public async Task<IActionResult> GetById([FromQuery] GetFlockRequest request, CancellationToken cancellationToken = default)
+    [HttpGet("{id:guid}")]
+    [Authorize]
+    public async Task<IActionResult> GetById(Guid id, [FromQuery] GetFlockRequest request, CancellationToken cancellationToken = default)
     {
-        var flock = await flockService.GetByIdAsync(request, cancellationToken);
+        var result = await flockService.GetByIdAsync(id, request, cancellationToken);
         
-        if (flock == null)
-        {
-            return NotFound(new { message = $"Flock with id {request.Id} not found." });
-        }
-        
-        return Ok(flock);
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : Ok(result.Data);
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetFlocks([FromQuery] FlockListRequest request, CancellationToken cancellationToken = default)
     {
-        var flocks = await flockService.GetPagedAsync(request, cancellationToken);
+        var result = await flockService.GetPagedAsync(request, cancellationToken);
 
-        return Ok(flocks);
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : Ok(result.Data);
     }
     
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddFlock([FromBody] AddFlockDto flock, CancellationToken cancellationToken = default)
     {
-        await flockService.AddAsync(flock, cancellationToken);
-        return Ok();
+        var result = await flockService.AddAsync(flock, cancellationToken);
+        
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : StatusCode(201, new { success = true });
     }
     
     [HttpPut]
+    [Authorize]
     public async Task<IActionResult> UpdateFlock([FromBody] UpdateFlockDto flock, CancellationToken cancellationToken = default)
     {
-        await flockService.UpdateAsync(flock, cancellationToken);
-        return Ok();
+        var result = await flockService.UpdateAsync(flock, cancellationToken);
+        
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : Ok(new { success = true });
     }
     
     [HttpDelete]
+    [Authorize]
     public async Task<IActionResult> RemoveFlock([FromQuery] Guid id, CancellationToken cancellationToken = default)
     {
-        await flockService.RemoveAsync(id, cancellationToken);
-        return Ok();   
+        var result = await flockService.RemoveAsync(id, cancellationToken);
+        
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : Ok(new { success = true });
+    }
+    
+    [HttpHead("{id:guid}")]
+    [Authorize]
+    public async Task<IActionResult> FlockExists(Guid id, CancellationToken cancellationToken = default)
+    {
+        var result = await flockService.ExistsAsync(id, cancellationToken);
+        
+        if (!result.IsSuccess)
+        {
+            return StatusCode(result.StatusCode);
+        }
+
+        return result.Data ? Ok() : NotFound();
     }
 }

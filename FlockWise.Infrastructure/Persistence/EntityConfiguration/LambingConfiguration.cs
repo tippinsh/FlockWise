@@ -1,8 +1,8 @@
 namespace FlockWise.Infrastructure.Persistence.EntityConfiguration;
 
-public class LambingConfiguration : IEntityTypeConfiguration<Lambing>
+public class LambingConfiguration : IEntityTypeConfiguration<LambingRecord>
 {
-    public void Configure(EntityTypeBuilder<Lambing> builder)
+    public void Configure(EntityTypeBuilder<LambingRecord> builder)
     {
         builder.HasKey(e => e.Id);
         

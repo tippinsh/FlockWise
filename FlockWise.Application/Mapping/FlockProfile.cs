@@ -1,5 +1,4 @@
 using FlockWise.Application.Models.Flock;
-using FlockWise.Core.Entities;
 
 namespace FlockWise.Application.Mapping;
 

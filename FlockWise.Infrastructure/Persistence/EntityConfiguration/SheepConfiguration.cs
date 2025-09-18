@@ -28,12 +28,6 @@ public class SheepConfiguration : IEntityTypeConfiguration<Sheep>
             .HasForeignKey(w => w.SheepId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // BirthRecord relationship
-        builder.HasOne(s => s.BirthRecord)
-            .WithOne()
-            .HasForeignKey<BirthRecord>(s => s.SheepId)
-            .OnDelete(DeleteBehavior.SetNull);
-        
         builder.HasIndex(e => e.UserId);
         builder.HasIndex(e => e.FlockId);
 

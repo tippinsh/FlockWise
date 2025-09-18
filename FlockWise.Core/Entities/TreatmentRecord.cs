@@ -1,11 +1,11 @@
-namespace FlockWise.Core.Events.Sheep;
+namespace FlockWise.Core.Entities;
 
 public class TreatmentRecord
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; } = SequentialGuidGenerator.NewSequentialGuid();
     
     [Required]
-    public int SheepId { get; set; }
+    public Guid SheepId { get; set; }
     
     public DateTimeOffset DateOfTreatment { get; set; }
     

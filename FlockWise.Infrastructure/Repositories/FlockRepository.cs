@@ -1,4 +1,5 @@
 using FlockWise.Application.Interfaces;
+using FlockWise.Application.Models;
 using FlockWise.Application.Models.Flock;
 using FlockWise.Application.Models.Requests;
 using FlockWise.Core.Enums;
@@ -9,7 +10,7 @@ namespace FlockWise.Infrastructure.Repositories;
 
 public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
 {
-    public async Task<Flock?> GetByIdAsync(Guid id, FlockInclude include, CancellationToken cancellationToken = default)
+    public async Task<Result<Flock?>> GetByIdAsync(Guid id, FlockInclude include, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -20,16 +21,16 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
         
             query = AddFlockIncludesToQuery(include, query);
 
-            return await query.FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
+            var flock = await query.FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
+            return Result<Flock?>.Ok(flock);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
-            throw;
+            return Result<Flock?>.Error($"Failed to retrieve flock by ID {id}: {ex.Message}", 500);
         }
     }
 
-    public async Task<IEnumerable<Flock>> GetPagedAsync(FlockListRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<Flock>>> GetPagedAsync(FlockListRequest request, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -48,18 +49,19 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
                 .WithSorting(request.SortBy, request.SortDirection)
                 .Build();
         
-            return await filteredQuery
+            var flocks = await filteredQuery
                 .Where(x => x.UserId == request.UserId)
                 .ToListAsync(cancellationToken);
+
+            return Result<IEnumerable<Flock>>.Ok(flocks);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
-            throw;
+            return Result<IEnumerable<Flock>>.Error($"Failed to retrieve paged flocks: {ex.Message}", 500);
         }
     }
 
-    public async Task AddAsync(AddFlockDto flock, CancellationToken cancellationToken = default)
+    public async Task<Result<bool>> AddAsync(AddFlockDto flock, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -72,28 +74,55 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
                 Breed = flock.Breed
             };
             
-           await dbContext.Flocks.AddAsync(newFlock, cancellationToken);
+            await dbContext.Flocks.AddAsync(newFlock, cancellationToken);
+            return Result<bool>.Ok(true);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
-            throw;
+            return Result<bool>.Error($"Failed to add flock: {ex.Message}", 500);
         }
     }
 
-    public Task RemoveAsync(Flock flock, CancellationToken cancellationToken = default)
+    public Task<Result<bool>> RemoveAsync(Flock flock, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            dbContext.Flocks.Remove(flock);
+            return Task.FromResult(Result<bool>.Ok(true));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Result<bool>.Error($"Failed to remove flock: {ex.Message}", 500));
+        }
     }
 
-    public Task UpdateAsync(Flock flock, CancellationToken cancellationToken = default)
+    public Task<Result<bool>> UpdateAsync(Flock flock, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            dbContext.Flocks.Update(flock);
+            return Task.FromResult(Result<bool>.Ok(true));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Result<bool>.Error($"Failed to update flock: {ex.Message}", 500));
+        }
     }
 
-    public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Result<bool>> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var exists = await dbContext.Flocks
+                .AsNoTracking()
+                .AnyAsync(f => f.Id == id, cancellationToken);
+                
+            return Result<bool>.Ok(exists);
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Error($"Failed to check if flock exists: {ex.Message}", 500);
+        }
     }
     
     private static IQueryable<Flock> AddFlockIncludesToQuery(FlockInclude include, IQueryable<Flock> query)

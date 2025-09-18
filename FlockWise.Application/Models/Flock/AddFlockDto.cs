@@ -6,5 +6,5 @@ public class AddFlockDto
     public string Name { get; set; } = string.Empty;
     public Location Location { get; set; }
     public Breed Breed { get; set; }
-    public DateTimeOffset EstablishedDateUtc { get; set; }
+    public DateTimeOffset EstablishedDateUtc { get; set; } = DateTimeOffset.UtcNow;
 }   

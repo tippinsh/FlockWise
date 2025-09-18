@@ -1,0 +1,15 @@
+namespace FlockWise.Application.Models.Sheep;
+
+public class AddSheepDto
+{
+    public int UserId { get; set; }
+    public Guid FlockId { get; set; }
+    public string Breed { get; set; } = string.Empty;
+    public string? Pedigree { get; set; }
+    public Sex Sex { get; set; }
+    public string? FeetHealth { get; set; }
+    public int? NumberOfTeeth { get; set; }
+    public SheepStatus Status { get; set; } = SheepStatus.Alive;
+    public LifeStage LifeStage { get; set; }
+    public SheepType? SheepType { get; set; }
+}

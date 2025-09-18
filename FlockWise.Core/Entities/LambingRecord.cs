@@ -1,6 +1,6 @@
 namespace FlockWise.Core.Entities;
 
-public class Lambing
+public class LambingRecord
 {
     public Guid Id { get; set; } = SequentialGuidGenerator.NewSequentialGuid();
     
