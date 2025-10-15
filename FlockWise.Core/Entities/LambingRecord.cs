@@ -14,7 +14,7 @@ public class LambingRecord
     public int UserId { get; set; }
     
     public User User { get; set; } = null!;
-    public DateTimeOffset LambingDate { get; set; }
+    public DateTimeOffset LambingDateUtc { get; set; }
     
     public int? NumberBorn { get; set; }
     

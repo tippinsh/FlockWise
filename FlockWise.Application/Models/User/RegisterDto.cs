@@ -9,6 +9,9 @@ public class RegisterDto
 
     [StringLength(100)]
     public string? LastName { get; set; }
+
+    [Required]
+    public int FarmId { get; set; }
     
     [Required, EmailAddress, StringLength(255)]
     public required string Email { get; set; }

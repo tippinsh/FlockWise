@@ -29,21 +29,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
         
         // Configure navigation properties
-        builder.HasMany(e => e.Flocks)
-            .WithOne(f => f.User)
-            .HasForeignKey(f => f.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(e => e.Fields)
-            .WithOne(f => f.User)
-            .HasForeignKey(f => f.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(e => e.Sheep)
-            .WithOne(s => s.User)
-            .HasForeignKey(s => s.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(e => e.LambingRecords)
             .WithOne(l => l.User)
             .HasForeignKey(l => l.UserId)

@@ -33,7 +33,13 @@ public class BirthRecordConfiguration : IEntityTypeConfiguration<BirthRecord>
             .HasForeignKey(br => br.MotherId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(br => br.UpdatedByUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasIndex(e => e.SheepId)
             .IsUnique();
+        builder.HasIndex(e => e.UpdatedByUserId);
     }
 }

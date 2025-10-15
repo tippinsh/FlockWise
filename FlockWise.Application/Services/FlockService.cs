@@ -15,7 +15,7 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
 
         if (result.Data == null)
         {
-            return Result<FlockDto>.NotFound($"Flock with ID {id} not found");
+            return Result<FlockDto>.NotFound($"Flock with Id {id} not found");
         }
 
         var flockDto = mapper.Map<FlockDto>(result.Data);
@@ -70,7 +70,7 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
 
         if (existingFlockResult.Data == null)
         {
-            return Result<bool>.NotFound($"Flock with ID {flock.Id} not found");
+            return Result<bool>.NotFound($"Flock with Id {flock.Id} not found");
         }
 
         existingFlockResult.Data.Name = flock.Name;
@@ -78,7 +78,7 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
         existingFlockResult.Data.Breed = flock.Breed;
         existingFlockResult.Data.FieldId = flock.FieldId;
         
-        var updateResult = await flockRepository.UpdateAsync(existingFlockResult.Data, cancellationToken);
+        var updateResult = await flockRepository.UpdateAsync(existingFlockResult.Data);
         
         if (!updateResult.IsSuccess)
         {
@@ -111,10 +111,10 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
 
         if (existingFlockResult.Data == null)
         {
-            return Result<bool>.NotFound($"Flock with ID {id} not found");
+            return Result<bool>.NotFound($"Flock with Id {id} not found");
         }
 
-        var removeResult = await flockRepository.RemoveAsync(existingFlockResult.Data, cancellationToken);
+        var removeResult = await flockRepository.RemoveAsync(existingFlockResult.Data);
         
         if (!removeResult.IsSuccess)
         {

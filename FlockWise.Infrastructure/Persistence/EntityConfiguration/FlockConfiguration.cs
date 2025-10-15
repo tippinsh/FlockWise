@@ -7,12 +7,12 @@ public class FlockConfiguration : IEntityTypeConfiguration<Flock>
         builder.ToTable("Flocks");
 
         builder.HasKey(e => e.Id);
-        
-        builder.HasOne(e => e.User)
-            .WithMany(u => u.Flocks)
-            .HasForeignKey(e => e.UserId)
+
+        builder.HasOne(e => e.Farm)
+            .WithMany(f => f.Flocks)
+            .HasForeignKey(e => e.FarmId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Property(e => e.Id)
             .HasColumnType("uuid")
             .ValueGeneratedNever();
@@ -38,8 +38,13 @@ public class FlockConfiguration : IEntityTypeConfiguration<Flock>
             .HasForeignKey(f => f.FlockId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasIndex(f => f.FieldId);
-        builder.HasIndex(f => f.UserId);
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(e => e.UpdatedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
 
+        builder.HasIndex(f => f.FieldId);
+        builder.HasIndex(f => f.FarmId);
+        builder.HasIndex(f => f.UpdatedByUserId);
     }
 }

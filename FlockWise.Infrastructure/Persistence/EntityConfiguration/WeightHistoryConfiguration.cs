@@ -22,6 +22,17 @@ public class WeightHistoryConfiguration : IEntityTypeConfiguration<WeightHistory
         builder.Property(e => e.WeighedAtUtc)
             .IsRequired();
 
+        builder.HasOne(e => e.Sheep)
+            .WithMany(s => s.Weights)
+            .HasForeignKey(e => e.SheepId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(e => e.User)
+            .WithMany()
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasIndex(e => new { e.SheepId, e.WeighedAtUtc });
+        builder.HasIndex(e => e.UserId);
     }
 }

@@ -16,11 +16,17 @@ public class LambingNoteConfiguration : IEntityTypeConfiguration<LambingNote>
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.HasIndex(x => x.LambingId);
-        
         builder.HasOne(x => x.Lambing)
             .WithMany(x => x.Notes)
             .HasForeignKey(x => x.LambingId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(x => x.LambingId);
+        builder.HasIndex(x => x.UserId);
     }
 }

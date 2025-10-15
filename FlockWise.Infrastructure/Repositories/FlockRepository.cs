@@ -8,8 +8,10 @@ using FlockWise.Infrastructure.QueryBuilders;
 
 namespace FlockWise.Infrastructure.Repositories;
 
-public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
+public class FlockRepository (FlockWiseDbContext dbContext, ICurrentUserService currentUserService) : IFlockRepository
 {
+    private readonly int _farmId = currentUserService.FarmId;
+    
     public async Task<Result<Flock?>> GetByIdAsync(Guid id, FlockInclude include, CancellationToken cancellationToken = default)
     {
         try
@@ -50,7 +52,7 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
                 .Build();
         
             var flocks = await filteredQuery
-                .Where(x => x.UserId == request.UserId)
+                .Where(x => x.FarmId == _farmId)
                 .ToListAsync(cancellationToken);
 
             return Result<IEnumerable<Flock>>.Ok(flocks);
@@ -67,7 +69,7 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
         {
             var newFlock = new Flock
             {
-                UserId = flock.UserId,
+                FarmId = _farmId,
                 Name = flock.Name,
                 Location = flock.Location,
                 EstablishedDateUtc = flock.EstablishedDateUtc,
@@ -83,7 +85,7 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
         }
     }
 
-    public Task<Result<bool>> RemoveAsync(Flock flock, CancellationToken cancellationToken = default)
+    public Task<Result<bool>> RemoveAsync(Flock flock)
     {
         try
         {
@@ -96,7 +98,7 @@ public class FlockRepository (FlockWiseDbContext dbContext) : IFlockRepository
         }
     }
 
-    public Task<Result<bool>> UpdateAsync(Flock flock, CancellationToken cancellationToken = default)
+    public Task<Result<bool>> UpdateAsync(Flock flock)
     {
         try
         {

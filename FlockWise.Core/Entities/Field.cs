@@ -5,9 +5,7 @@ public class Field
     public Guid Id { get; set; } = SequentialGuidGenerator.NewSequentialGuid();
     
     [Required]
-    public int UserId { get; set; }
-    
-    public User User { get; set; } = null!;
+    public int FarmId { get; set; }
 
     public double Size { get; set; }
 
@@ -19,4 +17,7 @@ public class Field
 
     [Range(-180, 180)]
     public decimal? Longitude { get; set; }
+    
+    // Navigation properties
+    public Farm Farm { get; set; }
 }

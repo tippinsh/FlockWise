@@ -4,7 +4,7 @@ public class AddSheepDto
 {
     public int UserId { get; set; }
     public Guid FlockId { get; set; }
-    public string Breed { get; set; } = string.Empty;
+    public Breed Breed { get; set; }
     public string? Pedigree { get; set; }
     public Sex Sex { get; set; }
     public string? FeetHealth { get; set; }

@@ -10,7 +10,7 @@ public class SheepQueryBuilder(IQueryable<Sheep> sheepQuery)
     {
         if (!string.IsNullOrWhiteSpace(search))
         {
-            _sheepQuery = _sheepQuery.Where(x => x.Breed.Contains(search) 
+            _sheepQuery = _sheepQuery.Where(x => x.Breed.ToString().Contains(search) 
                                        || (x.Pedigree != null && x.Pedigree.Contains(search))
                                        || (x.FeetHealth != null && x.FeetHealth.Contains(search)));
         }
@@ -22,7 +22,7 @@ public class SheepQueryBuilder(IQueryable<Sheep> sheepQuery)
     {
         if (!string.IsNullOrWhiteSpace(breed))
         {
-            _sheepQuery = _sheepQuery.Where(s => s.Breed.Contains(breed));
+            _sheepQuery = _sheepQuery.Where(s => s.Breed.ToString().Contains(breed));
         }
         return this;
     }

@@ -18,6 +18,11 @@ public class User
     
     [Required]
     public required byte[] PasswordSalt { get; set; }
+
+    [Required]
+    public int FarmId { get; set; }
+
+    public Farm Farm { get; set; } = new();
     
     public List<Flock> Flocks { get; set; } = [];
     

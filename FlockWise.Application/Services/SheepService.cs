@@ -69,7 +69,7 @@ public class SheepService(ISheepRepository sheepRepository, IMapper mapper, IUni
 
         if (existingSheepResult.Data == null)
         {
-            return Result<bool>.NotFound($"Sheep with ID {sheep.Id} not found");
+            return Result<bool>.NotFound($"Sheep with Id {sheep.Id} not found");
         }
         
         existingSheepResult.Data.FlockId = sheep.FlockId;
@@ -113,7 +113,7 @@ public class SheepService(ISheepRepository sheepRepository, IMapper mapper, IUni
 
         if (existingSheepResult.Data == null)
         {
-            return Result<bool>.NotFound($"Sheep with ID {id} not found");
+            return Result<bool>.NotFound($"Sheep with Id {id} not found");
         }
 
         var removeResult = await sheepRepository.RemoveAsync(existingSheepResult.Data, cancellationToken);

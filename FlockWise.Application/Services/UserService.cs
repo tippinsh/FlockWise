@@ -11,7 +11,7 @@ public class UserService(
     {
         try
         {
-            // Check if user already exists
+            // Check if the user already exists
             var existingUser = await userRepository.GetByEmailAsync(registerDto.Email);
             if (existingUser != null)
             {
@@ -52,7 +52,7 @@ public class UserService(
         try
         {
             var user = await userRepository.GetByEmailAsync(loginDto.Email);
-            if (user == null || !VerifyPassword(loginDto.Password, user.PasswordHash, user.PasswordSalt))
+            if (user == null || !VerifyPassword(loginDto.Password, user.PasswordHash))
             {
                 return Result<AuthResponseDto>.Error("Invalid email or password.");
             }
@@ -88,7 +88,7 @@ public class UserService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error getting user with ID {UserId}", userId);
+            logger.LogError(ex, "Error getting user with Id: {UserId}", userId);
             return Result<UserDto>.Error("An error occurred while retrieving the user.");
         }
     }
@@ -114,7 +114,7 @@ public class UserService(
         return (Encoding.UTF8.GetBytes(hash), Encoding.UTF8.GetBytes(salt));
     }
 
-    private static bool VerifyPassword(string password, byte[] hash, byte[] salt)
+    private static bool VerifyPassword(string password, byte[] hash)
     {
         var hashString = Encoding.UTF8.GetString(hash);
         return BCrypt.Net.BCrypt.Verify(password, hashString);

@@ -4,7 +4,7 @@ public class SheepDto
 {
     public Guid Id { get; set; }
     public Guid FlockId { get; set; }
-    public required string Breed { get; set; }
+    public required Breed Breed { get; set; }
     public string? Pedigree { get; set; }
     public DateTimeOffset? DateOfBirth { get; set; }
     public DateTimeOffset? DateOfDeath { get; set; }

@@ -13,9 +13,9 @@ public class FieldConfiguration : IEntityTypeConfiguration<Field>
             .ValueGeneratedNever();
 
         // User relationship
-        builder.HasOne(e => e.User)
+        builder.HasOne(e => e.Farm)
             .WithMany(u => u.Fields)
-            .HasForeignKey(e => e.UserId)
+            .HasForeignKey(e => e.FarmId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(e => e.Size)
@@ -30,6 +30,6 @@ public class FieldConfiguration : IEntityTypeConfiguration<Field>
         builder.Property(e => e.Longitude)
             .HasPrecision(10, 7);
 
-        builder.HasIndex(e => e.UserId);
+        builder.HasIndex(e => e.FarmId);
     }
 }

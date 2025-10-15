@@ -42,6 +42,6 @@ public class LambingConfiguration : IEntityTypeConfiguration<LambingRecord>
         
         builder.HasIndex(e => e.EweId);
         builder.HasIndex(e => e.TupId);
-        builder.HasIndex(e => e.LambingDate);
+        builder.HasIndex(e => e.LambingDateUtc);
     }
 }
