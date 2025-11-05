@@ -2,7 +2,7 @@ namespace FlockWise.Application.Models.Sheep;
 
 public class AddSheepDto
 {
-    public int UserId { get; set; }
+    public int FarmId { get; set; }
     public Guid FlockId { get; set; }
     public Breed Breed { get; set; }
     public string? Pedigree { get; set; }

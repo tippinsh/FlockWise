@@ -2,7 +2,7 @@ namespace FlockWise.Application.Models.Requests;
 
 public class SheepListRequest : BaseFilterRequest
 {
-    public int UserId { get; set; }
+    public int FarmId { get; set; }
     public Guid? FlockId { get; set; }
     public string? Search { get; set; }
     public string? Breed { get; set; }

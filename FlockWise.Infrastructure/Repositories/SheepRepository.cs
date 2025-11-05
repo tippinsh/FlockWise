@@ -53,7 +53,7 @@ public class SheepRepository(FlockWiseDbContext dbContext) : ISheepRepository
                 .Build();
         
             var sheep = await filteredQuery
-                .Where(x => x.UserId == request.UserId)
+                .Where(x => x.FarmId == request.FarmId)
                 .ToListAsync(cancellationToken);
 
             return Result<IEnumerable<Sheep>>.Ok(sheep);
@@ -70,7 +70,7 @@ public class SheepRepository(FlockWiseDbContext dbContext) : ISheepRepository
         {
             var newSheep = new Sheep
             {
-                UserId = sheep.UserId,
+                FarmId = sheep.FarmId,
                 FlockId = sheep.FlockId,
                 Breed = sheep.Breed,
                 Pedigree = sheep.Pedigree,

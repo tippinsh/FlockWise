@@ -31,8 +31,7 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
             StatusCode = statusCode,
             Timestamp = DateTime.UtcNow
         };
-
-        // Only include details in development
+        
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         if (environment == "Development")
         {

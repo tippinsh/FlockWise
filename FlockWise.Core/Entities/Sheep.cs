@@ -4,7 +4,7 @@ public class Sheep
 {
     public Guid Id { get; init; } = SequentialGuidGenerator.NewSequentialGuid();
 
-    public Guid FarmId { get; set; }
+    public int FarmId { get; set; }
 
     public string EidTag { get; set; } = string.Empty;
     
