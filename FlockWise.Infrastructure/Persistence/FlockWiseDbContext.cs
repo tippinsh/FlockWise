@@ -14,6 +14,7 @@ public class FlockWiseDbContext(DbContextOptions<FlockWiseDbContext> options) : 
     public DbSet<LambingRecord> LambingRecords { get; set; }
     public DbSet<LambingNote> LambingNotes { get; set; }
     public DbSet<WeightHistory> WeightHistories { get; set; }
+    public DbSet<Farm> Farms { get; set; }
     
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -34,5 +35,6 @@ public class FlockWiseDbContext(DbContextOptions<FlockWiseDbContext> options) : 
         modelBuilder.ApplyConfiguration(new LambingNoteConfiguration());
         modelBuilder.ApplyConfiguration(new WeightHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new TreatmentRecordConfiguration());
+        modelBuilder.ApplyConfiguration(new FarmConfiguration());
     }
 }

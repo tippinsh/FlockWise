@@ -8,9 +8,9 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
     {
         var result = await flockRepository.GetByIdAsync(id, request.Include, cancellationToken);
         
-        if (!result.IsSuccess)
+        if (result is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<FlockDto>.Error(result.ErrorMessage!, result.StatusCode);
+            return Result<FlockDto>.Error(result.ErrorMessage, result.StatusCode);
         }
 
         if (result.Data == null)
@@ -26,9 +26,9 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
     {
         var result = await flockRepository.GetPagedAsync(request, cancellationToken);
         
-        if (!result.IsSuccess)
+        if (result is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<IEnumerable<FlockDto>>.Error(result.ErrorMessage!, result.StatusCode);
+            return Result<IEnumerable<FlockDto>>.Error(result.ErrorMessage, result.StatusCode);
         }
 
         var flockDtos = mapper.Map<List<FlockDto>>(result.Data);
@@ -39,16 +39,16 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
     {
         var addResult = await flockRepository.AddAsync(addFlockRequest, cancellationToken);
         
-        if (!addResult.IsSuccess)
+        if (addResult is { IsSuccess: false, ErrorMessage: not null })
         {
             return Result<bool>.Error(addResult.ErrorMessage!, addResult.StatusCode);
         }
 
         var saveResult = await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        if (!saveResult.IsSuccess)
+        if (saveResult is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<bool>.Error(saveResult.ErrorMessage!, saveResult.StatusCode);
+            return Result<bool>.Error(saveResult.ErrorMessage, saveResult.StatusCode);
         }
         
         if (saveResult.Data > 0)
@@ -63,9 +63,9 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
     {
         var existingFlockResult = await flockRepository.GetByIdAsync(flock.Id, FlockInclude.None, cancellationToken);
         
-        if (!existingFlockResult.IsSuccess)
+        if (existingFlockResult is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<bool>.Error(existingFlockResult.ErrorMessage!, existingFlockResult.StatusCode);
+            return Result<bool>.Error(existingFlockResult.ErrorMessage, existingFlockResult.StatusCode);
         }
 
         if (existingFlockResult.Data == null)
@@ -80,16 +80,16 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
         
         var updateResult = await flockRepository.UpdateAsync(existingFlockResult.Data);
         
-        if (!updateResult.IsSuccess)
+        if (updateResult is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<bool>.Error(updateResult.ErrorMessage!, updateResult.StatusCode);
+            return Result<bool>.Error(updateResult.ErrorMessage, updateResult.StatusCode);
         }
 
         var saveResult = await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        if (!saveResult.IsSuccess)
+        if (saveResult is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<bool>.Error(saveResult.ErrorMessage!, saveResult.StatusCode);
+            return Result<bool>.Error(saveResult.ErrorMessage, saveResult.StatusCode);
         }
         
         if (saveResult.Data > 0)
@@ -104,7 +104,7 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
     {
         var existingFlockResult = await flockRepository.GetByIdAsync(id, FlockInclude.None, cancellationToken);
         
-        if (!existingFlockResult.IsSuccess)
+        if (existingFlockResult is { IsSuccess: false, ErrorMessage: not null })
         {
             return Result<bool>.Error(existingFlockResult.ErrorMessage!, existingFlockResult.StatusCode);
         }
@@ -116,14 +116,14 @@ public class FlockService(IFlockRepository flockRepository, IMapper mapper, IUni
 
         var removeResult = await flockRepository.RemoveAsync(existingFlockResult.Data);
         
-        if (!removeResult.IsSuccess)
+        if (removeResult is { IsSuccess: false, ErrorMessage: not null })
         {
             return Result<bool>.Error(removeResult.ErrorMessage!, removeResult.StatusCode);
         }
 
         var saveResult = await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        if (!saveResult.IsSuccess)
+        if (saveResult is { IsSuccess: false, ErrorMessage: not null })
         {
             return Result<bool>.Error(saveResult.ErrorMessage!, saveResult.StatusCode);
         }

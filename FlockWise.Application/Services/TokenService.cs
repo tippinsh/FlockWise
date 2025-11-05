@@ -1,19 +1,10 @@
 namespace FlockWise.Application.Services;
 
-public class TokenService : ITokenService
+public class TokenService(IConfiguration configuration, ILogger<TokenService> logger) : ITokenService
 {
-    private readonly IConfiguration _configuration;
-    private readonly ILogger<TokenService> _logger;
-
-    public TokenService(IConfiguration configuration, ILogger<TokenService> logger)
-    {
-        _configuration = configuration;
-        _logger = logger;
-    }
-
     public string GenerateToken(User user)
     {
-        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured"));
+        var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured"));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity([
@@ -24,8 +15,8 @@ public class TokenService : ITokenService
             ]),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Issuer = _configuration["Jwt:Issuer"],
-            Audience = _configuration["Jwt:Audience"]
+            Issuer = configuration["Jwt:Issuer"],
+            Audience = configuration["Jwt:Audience"]
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -38,16 +29,16 @@ public class TokenService : ITokenService
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured"));
+            var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured"));
 
             tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["Jwt:Issuer"],
+                ValidIssuer = configuration["Jwt:Issuer"],
                 ValidateAudience = true,
-                ValidAudience = _configuration["Jwt:Audience"],
+                ValidAudience = configuration["Jwt:Audience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);
@@ -58,7 +49,7 @@ public class TokenService : ITokenService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error validating token");
+            logger.LogError(ex, "Error validating token");
             return null;
         }
     }

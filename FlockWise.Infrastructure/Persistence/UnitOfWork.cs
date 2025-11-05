@@ -1,5 +1,3 @@
-using FlockWise.Application.Interfaces;
-using FlockWise.Application.Models;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FlockWise.Infrastructure.Persistence;

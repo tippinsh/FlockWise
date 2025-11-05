@@ -28,7 +28,8 @@ public class FlockController(IFlockService flockService) : ControllerBase
     {
         var result = await flockService.AddAsync(flock, cancellationToken);
         
-        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : StatusCode(201, new { success = true });
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) 
+            : StatusCode(201, new { success = true });
     }
     
     [HttpPut]
@@ -37,7 +38,8 @@ public class FlockController(IFlockService flockService) : ControllerBase
     {
         var result = await flockService.UpdateAsync(flock, cancellationToken);
         
-        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : Ok(new { success = true });
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) 
+            : Ok(new { success = true });
     }
     
     [HttpDelete]
@@ -46,7 +48,8 @@ public class FlockController(IFlockService flockService) : ControllerBase
     {
         var result = await flockService.RemoveAsync(id, cancellationToken);
         
-        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) : Ok(new { success = true });
+        return !result.IsSuccess ? StatusCode(result.StatusCode, new { message = result.ErrorMessage }) 
+            : Ok(new { success = true });
     }
     
     [HttpHead("{id:guid}")]

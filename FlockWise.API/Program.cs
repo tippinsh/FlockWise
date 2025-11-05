@@ -78,11 +78,14 @@ services.AddScoped<IUserService, UserService>();
 services.AddScoped<IFlockService, FlockService>();
 services.AddScoped<ISheepService, SheepService>();
 services.AddScoped<ITokenService, TokenService>();
+services.AddScoped<IFarmService, FarmService>();
+services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 // Register Repositories
 services.AddScoped<IUserRepository, UserRepository>();
 services.AddScoped<IFlockRepository, FlockRepository>();
 services.AddScoped<ISheepRepository, SheepRepository>();
+services.AddScoped<IFarmRepository, FarmRepository>();
 
 services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SectionName));
 services.Configure<PostgresOptions>(configuration.GetSection(PostgresOptions.SectionName));

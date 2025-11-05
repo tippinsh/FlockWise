@@ -1,9 +1,6 @@
-using FlockWise.Application.Interfaces;
-using FlockWise.Application.Models;
 using FlockWise.Application.Models.Flock;
 using FlockWise.Application.Models.Requests;
 using FlockWise.Core.Enums;
-using FlockWise.Infrastructure.Persistence;
 using FlockWise.Infrastructure.QueryBuilders;
 
 namespace FlockWise.Infrastructure.Repositories;

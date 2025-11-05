@@ -2,19 +2,18 @@ namespace FlockWise.Application.Services;
 
 public class SheepService(ISheepRepository sheepRepository, IMapper mapper, IUnitOfWork unitOfWork) : ISheepService
 {
-    public async Task<Result<SheepDto>> GetByIdAsync(Guid id, GetSheepRequest request,
-        CancellationToken cancellationToken = default)
+    public async Task<Result<SheepDto>> GetByIdAsync(Guid id, GetSheepRequest request, CancellationToken cancellationToken = default)
     {
         var result = await sheepRepository.GetByIdAsync(id, request.Include, cancellationToken);
         
-        if (!result.IsSuccess)
+        if (result is { IsSuccess: false, ErrorMessage: not null })
         {
-            return Result<SheepDto>.Error(result.ErrorMessage!, result.StatusCode);
+            return Result<SheepDto>.Error(result.ErrorMessage, result.StatusCode);
         }
 
         if (result.Data == null)
         {
-            return Result<SheepDto>.NotFound($"Sheep with ID {id} not found");
+            return Result<SheepDto>.NotFound($"Sheep with Id {id} not found");
         }
 
         var sheepDto = mapper.Map<SheepDto>(result.Data);

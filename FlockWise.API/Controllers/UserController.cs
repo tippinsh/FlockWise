@@ -37,7 +37,7 @@ public class UserController(IUserService userService, ILogger<UserController> lo
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
+        if (userIdClaim == null || !int.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized();
         }

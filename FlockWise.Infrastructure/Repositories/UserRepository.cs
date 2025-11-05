@@ -1,6 +1,3 @@
-using FlockWise.Application.Interfaces;
-using FlockWise.Infrastructure.Persistence;
-
 namespace FlockWise.Infrastructure.Repositories;
 
 public class UserRepository(FlockWiseDbContext context) : IUserRepository
