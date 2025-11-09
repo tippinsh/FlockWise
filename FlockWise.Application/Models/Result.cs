@@ -4,10 +4,9 @@ namespace FlockWise.Application.Models;
 
 public sealed class Result<T>
 {
-    public int StatusCode { get; init; } = (int)HttpStatusCode.OK;
+    public int StatusCode { get; private init; } = (int)HttpStatusCode.OK;
     public T? Data { get; private init; }
     public string? ErrorMessage { get; private init; }
-
     public bool IsSuccess => StatusCode is >= 200 and < 300 && string.IsNullOrEmpty(ErrorMessage);
     
     public static Result<T> Ok(T data, int statusCode = (int)HttpStatusCode.OK) =>

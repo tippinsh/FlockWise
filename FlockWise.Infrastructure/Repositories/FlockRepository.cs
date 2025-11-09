@@ -25,7 +25,7 @@ public class FlockRepository (FlockWiseDbContext dbContext, ICurrentUserService 
         }
         catch (Exception ex)
         {
-            return Result<Flock?>.Error($"Failed to retrieve flock by ID {id}: {ex.Message}", 500);
+            return Result<Flock?>.Error($"Failed to retrieve flock by Id {id}: {ex.Message}", 500);
         }
     }
 

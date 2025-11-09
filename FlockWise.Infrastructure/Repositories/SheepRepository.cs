@@ -23,7 +23,7 @@ public class SheepRepository(FlockWiseDbContext dbContext) : ISheepRepository
         }
         catch (Exception ex)
         {
-            return Result<Sheep?>.Error($"Failed to retrieve sheep by ID {id}: {ex.Message}", 500);
+            return Result<Sheep?>.Error($"Failed to retrieve sheep by Id {id}: {ex.Message}", 500);
         }
     }
 

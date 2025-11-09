@@ -1,5 +1,6 @@
 namespace FlockWise.Core.Enums;
 
+[Flags]
 public enum SheepInclude
 {
     None = 0,
